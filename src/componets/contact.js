@@ -1,8 +1,68 @@
-import React from 'react'
+import React, { useRef,useState} from "react";
+import emailjs from "emailjs-com";
+  import { ToastContainer, toast } from 'react-toastify';
 
 function Contact() {
+   
+  const form = useRef();
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  const validate = () => {
+    let newErrors = {};
+    const data = new FormData(form.current);
+
+    const name = data.get("name")?.trim();
+    const email = data.get("email")?.trim();
+    const subject = data.get("subject")?.trim();
+    const message = data.get("message")?.trim();
+
+    if (!name) newErrors.name = "Name is required";
+
+    if (!email) {
+      newErrors.youremail = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      newErrors.youremail = "Invalid email address";
+    }
+
+    if (!subject) newErrors.subject = "Subject is required";
+    if (!message) newErrors.message = "Message is required";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+
+    if (!validate()) {
+      toast.error("Please fix form errors ❌");
+      return;
+    }
+
+    setLoading(true);
+
+    emailjs
+      .sendForm(
+        "service_qko7s2r",
+        "template_nfxwr7g",
+        form.current,
+        "mZt7Guvi7HhVadT0c"
+      )
+      .then(() => {
+        toast.success("Message sent successfully ✅");
+        form.current.reset();
+        setErrors({});
+      })
+      .catch(() => {
+        toast.error("Failed to send message ❌");
+      })
+      .finally(() => setLoading(false));
+  };
+
   return (
     <secton> 
+      <ToastContainer/>
       <div className='contact-page'>
 
     <center>
@@ -41,23 +101,30 @@ function Contact() {
 
       </div>
      </div>
-     
-    
+        
 
      <div className='form-div'>
       <center>
         <i className='fas fa-envelope'></i>
       </center>
 
-        <form action="https://formspree.io/f/mdovobez" method="post">
+        <form  ref={form} onSubmit={sendEmail}>
           <input type='text' name="name" id="name" placeholder='Your name' className='input1'/>
           <input type='email' name="email" id="email" placeholder='Your mail' className='input1'/>
           <br/>
+          <div style={{display:'flex',justifyContent:'space-around'}}>
+             {errors.name && <p className="error">{errors.name}</p>}
+          {errors.youremail && <p className="error">{errors.youremail}</p>}
+          </div>
+
           <input type='text' name="subject" id="subject" placeholder='Subject' className='input2'/>
+            {errors.subject && <p className="error">{errors.subject}</p>}
           <br/>
-          <textarea cols='81' className='input2' placeholder='Message'></textarea>
+          <textarea cols='81' name="message" className='input2' placeholder='Message'></textarea>
+           {errors.message && <p className="error">{errors.message}</p>}
           <br/>
-          <input type='submit'  name="subject" id="subject" value='send massage' className='btn-form'></input>
+          <input type='submit' id="subject" value='send massage' className='btn-form' disabled={loading}></input>
+            {loading ? "Sending..." : "Send Message"}
 
         </form>
      </div>

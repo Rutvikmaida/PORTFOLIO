@@ -906,3 +906,14 @@ font-size: 1.5rem;
           height: 40px;
         }
       }
+
+      .error {
+  color: red;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

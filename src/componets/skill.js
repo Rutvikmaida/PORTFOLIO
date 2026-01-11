@@ -6,6 +6,7 @@ import bootstrap from './images/bootstrap.png'
 import reactjs from './images/reactjs.png'
 import java from './images/java.png'
 import node from './images/nodejs.png'
+import python from './images/python.png'
 const Skill = () => {
   return (
     
@@ -39,6 +40,11 @@ const Skill = () => {
             <img src={reactjs} alt=""/>
               <br/>
               <h4>REACT J.S</h4>
+            </div>
+            <div className='box'>
+              <img src={python} alt=''/>
+              <h4>PYTHON</h4>
+              <br/>
             </div>
             <div className='box'>
             <img src={java} alt=""/>

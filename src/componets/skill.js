@@ -6,6 +6,7 @@ import bootstrap from './images/bootstrap.png'
 import reactjs from './images/reactjs.png'
 import java from './images/java.png'
 import node from './images/nodejs.png'
+import tailwind from './images/tailwind.png'
 import python from './images/python.png'
 const Skill = () => {
   return (
@@ -33,6 +34,11 @@ const Skill = () => {
             </div>     
             <div className='box'>
             <img src={bootstrap} alt=""/>
+              <br/>
+              <h4>BOOTSTRAP</h4>
+            </div>
+             <div className='box'>
+            <img src={tailwind} alt=""/>
               <br/>
               <h4>BOOTSTRAP</h4>
             </div>
